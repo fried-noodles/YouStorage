@@ -1,0 +1,22 @@
+{% extends "storage/layout.html" %}
+{% load bootstrap3 %}
+{% block header %}
+<h1>上传你的文件:</h1>
+{% endblock header %}
+
+{% block content %}
+<form action="{% url 'storage:upload' %}" method="POST" enctype="multipart/form-data" class="form">
+        {% csrf_token %}
+        <div style="position: relative">
+            {% bootstrap_form form %}
+        </div>
+    <!--
+        <input type="submit" value="提交" />
+        -->
+    {% buttons %}
+    <button name="submit" class="btn btn-primary">上传</button>
+    {% endbuttons %}
+    </form>
+
+
+{% endblock content %}

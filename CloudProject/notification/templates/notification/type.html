@@ -1,0 +1,33 @@
+{% extends "notification/layout.html" %}
+{% load bootstrap3 %}
+{% block header %}
+  <h2>{{ type }}</h2>
+{% endblock header %}
+
+{% block content %}
+  <p>
+    <a href="{% url 'notification:new_notice' type.id %}">新建一条通知</a>
+  </p>
+
+  {% for notice in notices %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3>
+          {{ notice.update_time|date:'M d, Y H:i' }}
+          <small>
+            <a href="{% url 'notification:edit_notice' notice.id %}">编辑</a>
+            <!--
+            <a href="{% url 'notification:delete_notice' notice.id %}">删除</a>
+            -->
+          </small>
+        </h3>
+      </div>
+      <div class="panel-body">
+        {{ notice.text|linebreaks }}
+      </div>
+    </div> <!-- panel -->
+  {% empty %}
+    <p>该分组下目前还没有内容。要么<a href="{% url 'notification:new_notice' type.id %}">创建一个</a>？</p>
+  {% endfor %}
+
+{% endblock content %}

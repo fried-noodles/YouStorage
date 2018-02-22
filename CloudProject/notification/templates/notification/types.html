@@ -1,0 +1,20 @@
+{% extends "notification/layout.html" %}
+{% block header %}
+<h1>通知分组：</h1>
+{% endblock header %}
+
+{% block content %}
+
+<ul>
+    {% for type in types %}
+        <li>
+            <h3><a href="{% url 'notification:type' type.id %}">{{ type }}</a>-
+                <a href="{% url 'notification:delete_type' type.id %}">删除此分组</a>
+            </h3>
+        </li>
+    {% empty %}
+        <p>还没有通知分组</p>
+    {% endfor %}
+</ul>
+<h3><a href="{% url 'notification:new_type' %}">新建分组</a></h3>
+{% endblock content %}

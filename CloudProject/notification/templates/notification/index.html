@@ -1,0 +1,22 @@
+{% extends "notification/layout.html"  %}
+{% block header %}
+  <div class='jumbotron'>
+      <h1>这里是全部的通知：</h1>
+  </div>
+{% endblock header %}
+{% block content %}
+  {% for notice in notices %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3>
+          {{ notice.update_time|date:'M d, Y H:i' }}
+        </h3>
+      </div>
+      <div class="panel-body">
+        {{ notice.text|linebreaks }}
+      </div>
+    </div> <!-- panel -->
+  {% empty %}
+    <p>并没有什么通知……</p>
+  {% endfor %}
+{% endblock content %}

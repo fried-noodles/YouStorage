@@ -1,0 +1,24 @@
+{% extends "homepage/layout.html" %}
+{% block content %}
+{% if user.is_authenticated %}
+<h4>近期通知</h4>
+<ul>
+        {% for entry in notices %}
+        <li>
+        <h3>{{ entry.update_time |date:'M d, Y H:i' }}</h3>
+        <p>{{ entry.text|linebreaks }}</p>
+        </li>
+        {% empty %}
+        <li>
+            <p>并没有什么消息……</p>
+        </li>
+        {% endfor %}
+    </li>
+</ul>
+{% else %}
+  <div class='jumbotron'>
+    <h1>这是一个简单的基于Django的云端储存项目</h1>
+  </div>
+<h2>您还没有<a href="{% url 'account:login' %}">登录</a>，或者<a href="{% url 'account:register' %}">注册一个</a></h2>
+{% endif %}
+{% endblock content %}
