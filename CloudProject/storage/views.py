@@ -45,12 +45,12 @@ def upload(request):
 
 @login_required
 def download(request, file_id):
-    form = FileRec()
+    # form = FileRec()
     file = UploadFile.objects.get(id=file_id)
     path = file.file_path
-    form.oprtr = request.usergit
-    form.file = str(file.name)
-    form.save()
+    # form.oprtr = request.user
+    # form.file = str(file.name)
+    # form.save()
     response = FileResponse(path)
     response['Content-Type'] = 'application/octet-stream'
     response['Content-Disposition'] = 'attachment;filename="{0}"'.format(file.name)
