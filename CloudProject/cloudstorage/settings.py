@@ -130,11 +130,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 # 我的自定义设置
-LOGIN_URL = '/users/login'
+LOGIN_URL = '/account/login'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'storage/')
 
-MEDIA_URL = '/storage/upload/' #这个是在浏览器上访问该上传文件的url的前缀
+# 这个是在浏览器上访问该上传文件的url的前缀
+MEDIA_URL = '/storage/upload/'
 # django-bootstrap3的设置
 
 BOOTSTRAP3 = {

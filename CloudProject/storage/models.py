@@ -9,17 +9,18 @@ class UploadFile(models.Model):
     name = models.CharField(max_length=200)
     file_path = models.FileField(upload_to='./upload/%Y/%m/%d/')
     upload_time = models.DateTimeField(auto_now_add=True)
-    share_opt = models.BooleanField(primary_key=False)
+    share_opt = models.BooleanField(primary_key='False')
 
     def __str__(self):
         return self.name
 
 
 class FileRec(models.Model):
-    OPT_TYPE= (
+    OPT_TYPE = (
         ('U', 'upload'),
         ('D', 'download'),
         ('R', 'delete'),
+        ('S', 'share')
     )
     oprtr = models.ForeignKey(User, on_delete=models.CASCADE)
     file = models.CharField(max_length=300)

@@ -13,20 +13,23 @@ def logout_view(request):
 
 
 def register(request):
-    """注册新用户"""
-    if request.method != 'post':
-        # 显示空的表单
+    """新建用户"""
+    if request.method != 'POST':
+        # 建立新表单
         form = UserCreationForm()
     else:
-        # 处理填好的表单
+        # 处理提交的表单
         form = UserCreationForm(data=request.POST)
 
         if form.is_valid():
             new_user = form.save()
-            # 让用户自动登录并重定向到主页
-            authenticated_user = authenticate(username=new_user.username, password=request.POST['password1'])
+            # 登录新注册的账号，重新定向到主页
+            authenticated_user = authenticate(username=new_user.username,
+                                              password=request.POST['password1'])
             login(request, authenticated_user)
             return HttpResponseRedirect(reverse('homepage:index'))
+
     context = {'form': form}
     return render(request, 'account/register.html', context)
+
 

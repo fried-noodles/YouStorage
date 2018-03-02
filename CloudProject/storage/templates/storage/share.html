@@ -1,0 +1,27 @@
+{% extends "storage/layout.html" %}
+{% load bootstrap3 %}
+{% block header %}
+<h1>分享的文件：</h1>
+{% endblock header %}
+{% block content %}
+{% for file in files %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>
+            {{ file.upload_time|date:'M d, Y H:i' }}-
+
+            <a href="{% url 'storage:share_down' file.name %}">下载</a>
+
+            <a href="{% url 'storage:share_disable' file.name %}">取消分享</a>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <h4>
+            {{ file.name }}
+        </h4>
+    </div>
+</div> <!-- panel -->
+{% empty %}
+<p>您还没有分享文件。</p>
+{% endfor %}
+{% endblock content %}
