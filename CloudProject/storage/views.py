@@ -17,7 +17,6 @@ def index(request):
 @login_required
 def upload(request):
     """文件上传"""
-    # rec = ShareForm()
     if request.method != 'POST':
         # 未提交数据，创建新表单
         form = FileUploadForm()
@@ -79,6 +78,7 @@ def share_enable(request, file_name):
 def share_disable(request, file_name):
     UploadFile.objects.filter(owner=request.user, name=file_name).update(share_opt=0)
     return HttpResponseRedirect(reverse('storage:share'))
+
 
 @login_required
 def share_down(request, file_name):
