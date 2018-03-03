@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import FileResponse
+from django.contrib.auth.decorators import login_required
 
 
 from notification.models import Notice
@@ -17,12 +18,14 @@ def index(request):
     return render(request, 'homepage/index.html', context)
 
 
+@login_required
 def share(request):
     file_table = UploadFile.objects.filter(share_opt='True').order_by('-upload_time')
     context = {'files': file_table}
     return render(request, 'homepage/share.html', context)
 
 
+"""
 def share_down(request, file_name):
     form = FileRec()
     file = UploadFile.objects.get(name=file_name)
@@ -35,4 +38,4 @@ def share_down(request, file_name):
     response['Content-Type'] = 'application/octet-stream'
     response['Content-Disposition'] = 'attachment;filename="{0}"'.format(file.name)
     return response
-
+"""
