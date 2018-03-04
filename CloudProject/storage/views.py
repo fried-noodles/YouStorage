@@ -9,6 +9,7 @@ from django.http import FileResponse
 
 @login_required
 def index(request):
+    """显示用户的文件"""
     file_table = UploadFile.objects.filter(owner=request.user).order_by('-upload_time')
     context = {'files': file_table, 'user': request.user}
     return render(request, 'storage/index.html', context)
@@ -46,6 +47,7 @@ def upload(request):
 
 @login_required
 def download(request, file_name):
+    """下载已经上传的文件"""
     form = FileRec()
     file = UploadFile.objects.get(name=file_name)
     path = file.file_path
@@ -61,12 +63,15 @@ def download(request, file_name):
 
 @login_required
 def share_withlogin(request):
+    """查看自己分享的文件"""
     file_table = UploadFile.objects.filter(share_opt='True', owner=request.user).order_by('-upload_time')
     context = {'files': file_table}
     return render(request, 'storage/share.html', context)
 
 
+@login_required
 def share_enable(request, file_name):
+    """激活文件分享"""
     UploadFile.objects.filter(owner=request.user, name=file_name).update(share_opt=1)
     # target.share_opt = 'True'
     # target.save()
@@ -75,11 +80,14 @@ def share_enable(request, file_name):
     return HttpResponseRedirect(reverse('storage:share'))
 
 
+@login_required
 def share_disable(request, file_name):
+    """取消文件分享"""
     UploadFile.objects.filter(owner=request.user, name=file_name).update(share_opt=0)
     return HttpResponseRedirect(reverse('storage:share'))
 
 
+"""
 @login_required
 def share_down(request, file_name):
     form = FileRec()
@@ -93,3 +101,4 @@ def share_down(request, file_name):
     response['Content-Type'] = 'application/octet-stream'
     response['Content-Disposition'] = 'attachment;filename="{0}"'.format(file.name)
     return response
+"""
