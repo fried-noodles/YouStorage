@@ -24,15 +24,16 @@ def share(request):
     return render(request, 'homepage/share.html', context)
 
 
-def download(request, file_name):
+def download(request, file_id):
     form = FileRec()
-    file = UploadFile.objects.get(name=file_name)
+    file = UploadFile.objects.get(id=file_id)
     path = file.file_path
     if User.is_authenticated:
         form.oprtr = request.user
     else:
-        form.oprtr = 0
-    form.file = str(file.name)
+        form.oprtr_id = 1
+    form.file_id = file_id
+    form.name = str(file.name)
     form.type = 'D'
     form.save()
     response = FileResponse(path)

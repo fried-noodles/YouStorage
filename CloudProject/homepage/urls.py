@@ -11,5 +11,5 @@ urlpatterns = [
     path('share/', views.share, name='share'),
 
     # 文件分享的下载
-    path('share/<file_name>/', views.download,  name='download'),
+    path('share/download/<file_id>/', views.download,  name='download'),
 ]
