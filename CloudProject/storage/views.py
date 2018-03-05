@@ -1,9 +1,11 @@
+# _*_ coding=utf-8 _*_
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect, reverse
-from .forms import FileUploadForm, FileRec
 from django.contrib.auth.decorators import login_required
-from .models import UploadFile, FileRec
 from django.http import FileResponse
 
+
+from .models import UploadFile
+from .forms import FileUploadForm, FileRec
 # Create your views here.
 
 
