@@ -10,9 +10,9 @@
         <h3>
             {{ file.upload_time|date:'M d, Y H:i' }}-
 
-            <a href="{% url 'storage:download' file.name %}">下载</a>
+            <a href="{% url 'storage:download' file.id %}">下载</a>
 
-            <a href="{% url 'storage:share_disable' file.name %}">取消分享</a>
+            <a href="{% url 'storage:share_disable' file.id %}">取消分享</a>
         </h3>
     </div>
     <div class="panel-body">

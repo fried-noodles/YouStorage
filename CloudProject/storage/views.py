@@ -46,13 +46,14 @@ def upload(request):
 
 
 @login_required
-def download(request, file_name):
+def download(request, file_id):
     """下载已经上传的文件"""
     form = FileRec()
-    file = UploadFile.objects.get(name=file_name)
+    file = UploadFile.objects.get(id=file_id)
     path = file.file_path
     form.oprtr = request.user
-    form.file = str(file.name)
+    form.file_id = file.id
+    form.name = str(file.name)
     form.type = 'D'
     form.save()
     response = FileResponse(path)
@@ -70,9 +71,9 @@ def share_withlogin(request):
 
 
 @login_required
-def share_enable(request, file_name):
+def share_enable(request, file_id):
     """激活文件分享"""
-    UploadFile.objects.filter(owner=request.user, name=file_name).update(share_opt=1)
+    UploadFile.objects.filter(owner=request.user, id=file_id).update(share_opt=1)
     # target.share_opt = 'True'
     # target.save()
     # target_pre = UploadFile.objects.get(name=file_name, share_opt=0)
@@ -81,12 +82,20 @@ def share_enable(request, file_name):
 
 
 @login_required
-def share_disable(request, file_name):
+def share_disable(request, file_id):
     """取消文件分享"""
-    UploadFile.objects.filter(owner=request.user, name=file_name).update(share_opt=0)
+    UploadFile.objects.filter(owner=request.user, id=file_id).update(share_opt=0)
     return HttpResponseRedirect(reverse('storage:share'))
 
 
+@login_required
+def share_switch(request, file_id):
+    """文件分享切换"""
+    if UploadFile.objects.get(owner=request.user, id=file_id).share_opt == 0:
+        UploadFile.objects.filter(owner=request.user, id=file_id).update(share_opt=1)
+    else:
+        UploadFile.objects.filter(owner=request.user, id=file_id).update(share_opt=0)
+    return HttpResponseRedirect(reverse('storage:index'))
 """
 @login_required
 def share_down(request, file_name):
