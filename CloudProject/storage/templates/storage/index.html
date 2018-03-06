@@ -14,7 +14,8 @@
           {% else %}
           <a href="{% url 'storage:share_switch' file.id %}">取消分享</a>-
           {% endif %}
-          <a href="{% url 'storage:download' file.id %}">下载</a>
+          <a href="{% url 'storage:download' file.id %}">下载</a>-
+          <a href="{% url 'storage:delete' file.id %}">删除</a>
         </h3>
       </div>
       <div class="panel-body">

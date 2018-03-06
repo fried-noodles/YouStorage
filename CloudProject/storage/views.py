@@ -2,10 +2,11 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect, reverse
 from django.contrib.auth.decorators import login_required
 from django.http import FileResponse
+from django.core.files import storage
 
 
-from .models import UploadFile
-from .forms import FileUploadForm, FileRec
+from .models import UploadFile, FileRec
+from .forms import FileUploadForm, FileRecForm
 # Create your views here.
 
 
@@ -50,7 +51,7 @@ def upload(request):
 @login_required
 def download(request, file_id):
     """下载已经上传的文件"""
-    form = FileRec()
+    form = FileRecForm()
     file = UploadFile.objects.get(id=file_id)
     path = file.file_path
     form.oprtr = request.user
@@ -63,6 +64,19 @@ def download(request, file_id):
     response['Content-Disposition'] = 'attachment;filename="{0}"'.format(file.name)
     return response
 
+
+@login_required
+def delete_file(request, file_id):
+    """删除所选文件"""
+    target = UploadFile.objects.get(id=file_id, owner=request.user)
+    if request.method != 'POST':
+        form = FileUploadForm(instance=target)
+    else:
+        target.file_path.delete()
+        target.delete()
+        return HttpResponseRedirect(reverse('storage:index'))
+    context = {'target': target, 'form': form}
+    return render(request, 'storage/delete.html', context)
 
 @login_required
 def share_withlogin(request):

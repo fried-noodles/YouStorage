@@ -11,7 +11,7 @@ class FileUploadForm(forms.ModelForm):
         labels = {'file_path': ''}
 
 
-class FileRec(forms.ModelForm):
+class FileRecForm(forms.ModelForm):
     class Meta:
         model = FileRec
         fields = ['file']

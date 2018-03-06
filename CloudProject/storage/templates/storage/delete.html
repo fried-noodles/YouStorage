@@ -1,0 +1,26 @@
+{% extends "storage/layout.html" %}
+{% load bootstrap3 %}
+{% block header %}
+<h1>上传你的文件:</h1>
+{% endblock header %}
+
+{% block content %}
+<div class="jumbotron">
+    <h2>
+        您将要删除： {{ target.name }}
+    </h2>
+    <p>
+        上传于：{{ target.upload_time |date:'M d, Y H:i' }}
+    </p>
+</div>
+<form action="{% url 'storage:delete' target.id %}" method="post">
+    {% csrf_token %}
+    <!--
+    {{ form.as_p }}
+    -->
+    {% buttons %}
+    <button name="submit" class="btn btn-danger">删除</button>
+    {% endbuttons %}
+</form>
+
+{% endblock content %}
