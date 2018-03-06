@@ -66,7 +66,7 @@ def download(request, file_id):
 
 
 @login_required
-def delete_file(request, file_id):
+def delete(request, file_id):
     """删除所选文件"""
     target = UploadFile.objects.get(id=file_id, owner=request.user)
     if request.method != 'POST':

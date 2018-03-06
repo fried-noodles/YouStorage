@@ -12,7 +12,7 @@ urlpatterns = [
     path('download/<file_id>/', views.download, name='download'),
 
     # 文件删除
-    path('delete/<file_id>/', views.delete_file, name='delete'),
+    path('delete/<file_id>/', views.delete, name='delete'),
 
     # 分享的文件
     path('share/', views.share_withlogin, name='share'),
