@@ -16,5 +16,3 @@ class FileRecForm(forms.ModelForm):
         model = FileRec
         fields = ['file']
         labels = {'file': ''}
-
-

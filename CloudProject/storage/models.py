@@ -6,7 +6,7 @@ from django.db import models
 class UploadFile(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
-    file_path = models.FileField(upload_to='./upload/%Y/%m/%d/')
+    file_path = models.FileField(upload_to='./upload/%Y%m%d/')
     upload_time = models.DateTimeField(auto_now_add=True)
     share_opt = models.BooleanField(primary_key=0)
 

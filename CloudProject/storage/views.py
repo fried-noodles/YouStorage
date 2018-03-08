@@ -2,7 +2,6 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect, reverse
 from django.contrib.auth.decorators import login_required
 from django.http import FileResponse
-from django.core.files import storage
 
 
 from .models import UploadFile, FileRec
@@ -32,7 +31,7 @@ def upload(request):
             new_form.owner = request.user
             img = new_form.file_path
             new_form.name = str(img)
-            new_form.share_opt = 'False'
+            new_form.share_opt = 0
             """
             f = open(img.name, 'wb')
             for line in img.chunks():
@@ -51,14 +50,12 @@ def upload(request):
 @login_required
 def download(request, file_id):
     """下载已经上传的文件"""
-    form = FileRecForm()
     file = UploadFile.objects.get(id=file_id)
     path = file.file_path
-    form.oprtr = request.user
-    form.file_id = file.id
-    form.name = str(file.name)
-    form.type = 'D'
-    form.save()
+    rec = FileRec.objects.create(file=file, oprtr=request.user)
+    rec.name = str(file.name)
+    rec.type = 'D'
+    rec.save()
     response = FileResponse(path)
     response['Content-Type'] = 'application/octet-stream'
     response['Content-Disposition'] = 'attachment;filename="{0}"'.format(file.name)
@@ -77,6 +74,7 @@ def delete(request, file_id):
         return HttpResponseRedirect(reverse('storage:index'))
     context = {'target': target, 'form': form}
     return render(request, 'storage/delete.html', context)
+
 
 @login_required
 def share_withlogin(request):
@@ -112,6 +110,8 @@ def share_switch(request, file_id):
     else:
         UploadFile.objects.filter(owner=request.user, id=file_id).update(share_opt=0)
     return HttpResponseRedirect(reverse('storage:index'))
+
+
 """
 @login_required
 def share_down(request, file_name):

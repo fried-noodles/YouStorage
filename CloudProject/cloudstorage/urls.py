@@ -1,3 +1,4 @@
+# _*_ coding=utf-8 _*_
 """cloudstorage URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
